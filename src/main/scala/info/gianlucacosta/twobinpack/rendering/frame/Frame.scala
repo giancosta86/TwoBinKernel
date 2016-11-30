@@ -562,7 +562,7 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @param anchor The potential anchor
     * @return The maximum dimension allowed
     */
-  private def getMaxPotentialBlockDimension(anchor: QuantizedPoint2D): BlockDimension = {
+  private def getMaxPotentialBlockDimension(anchor: QuantizedPoint2D): Option[BlockDimension] = {
     val maxPotentialBlockWidth =
       frameTemplate.frameMode match {
         case FrameMode.Knapsack =>
@@ -576,11 +576,15 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     val maxPotentialBlockHeight =
       anchor.top + 1
 
-
-    BlockDimension(
-      maxPotentialBlockWidth,
-      maxPotentialBlockHeight
-    )
+    if (maxPotentialBlockWidth > 0 && maxPotentialBlockHeight > 0) {
+      Some(
+        BlockDimension(
+          maxPotentialBlockWidth,
+          maxPotentialBlockHeight
+        )
+      )
+    } else
+      None
   }
 
 
@@ -647,22 +651,29 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
               )
 
           case None =>
-            val maxPotentialBlockDimension: BlockDimension =
+            val maxPotentialBlockDimensionOption: Option[BlockDimension] =
               getMaxPotentialBlockDimension(anchor)
 
 
             val compatibleBlocks: List[(AnchoredBlock, Int)] =
-              BlockPositioning.getCompatibleBlocks(
-                blockGallery().availableBlocks,
-                maxPotentialBlockDimension,
-                anchor,
-                blocks()
-              )
-                .toList
-                .sortBy {
-                  case (block, quantity) =>
-                    block.dimension
-                }
+              maxPotentialBlockDimensionOption match {
+                case Some(maxPotentialBlockDimension) =>
+                  BlockPositioning.getCompatibleBlocks(
+                    blockGallery().availableBlocks,
+                    maxPotentialBlockDimension,
+                    anchor,
+                    blocks()
+                  )
+                    .toList
+                    .sortBy {
+                      case (block, quantity) =>
+                        block.dimension
+                    }
+
+                case None =>
+                  List()
+              }
+
 
 
             val initialScrollIndexOption: Option[Int] =
@@ -735,13 +746,23 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
               )
 
 
-            val compatibleBlocks =
-              BlockPositioning.getCompatibleBlocks(
-                blockGallery().availableBlocks,
-                getMaxPotentialBlockDimension(potentialAnchor),
-                potentialAnchor,
-                blocks()
-              )
+            val maxPotentialDimensionOption =
+              getMaxPotentialBlockDimension(potentialAnchor)
+
+
+            val compatibleBlocks: Map[AnchoredBlock, Int] =
+              maxPotentialDimensionOption match {
+                case Some(maxPotentialDimension) =>
+                  BlockPositioning.getCompatibleBlocks(
+                    blockGallery().availableBlocks,
+                    maxPotentialDimension,
+                    potentialAnchor,
+                    blocks()
+                  )
+
+                case None =>
+                  Map()
+              }
 
 
             val compatibleBlockDimensions: Set[BlockDimension] =
