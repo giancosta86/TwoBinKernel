@@ -536,11 +536,30 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @param y The y coordinate
     * @return A point in quantum unit coordinates
     */
-  private def getQuantizedPointContaining(x: Double, y: Double): QuantizedPoint2D =
-  QuantizedPoint2D(
-    (x / resolution()).toInt,
-    (y / resolution()).toInt
-  )
+  private def getQuantizedPointContaining(x: Double, y: Double): QuantizedPoint2D = {
+    val inFrameQuantizedX: Int =
+      math.max(
+        math.min(
+          (x / resolution()).toInt,
+          quantizedWidth.get() - 1
+        ),
+        0
+      )
+
+    val inFrameQuantizedY: Int =
+      math.max(
+        math.min(
+          (y / resolution()).toInt,
+          quantizedHeight.get() - 1
+        ),
+        0
+      )
+
+    QuantizedPoint2D(
+      inFrameQuantizedX,
+      inFrameQuantizedY
+    )
+  }
 
 
   /**
