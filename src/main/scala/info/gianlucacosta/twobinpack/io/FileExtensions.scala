@@ -34,6 +34,10 @@ object FileExtensions {
     ".tbsol"
 
 
+  val CsvSolutionFile_v2 =
+    ".tbsol2"
+
+
   val StandardProblem =
     ".txt"
 }
