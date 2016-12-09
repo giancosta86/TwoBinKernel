@@ -86,6 +86,11 @@ case class Problem(
   )
 
 
+  @transient
+  lazy val timeLimitInSecondsOption: Option[Int] =
+    timeLimitInMinutesOption.map(_ * 60)
+
+
   override def compare(that: Problem): Int =
     name.compareTo(that.name)
 

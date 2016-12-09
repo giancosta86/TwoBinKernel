@@ -39,11 +39,25 @@ class TestProblem extends FlatSpec with Matchers {
     val problemD =
       ProblemA.copy(name = "ProblemD")
 
-
-
     ProblemA should be < ProblemB
     ProblemB should be < problemC
     problemC should be < problemD
     problemD should be < problemE
+  }
+
+
+  "Time limit in seconds" should "be correct if time limit in minutes is defined" in {
+    require(ProblemA.timeLimitInMinutesOption.isDefined)
+
+    ProblemA.timeLimitInSecondsOption should be(
+      Some(ProblemA.timeLimitInMinutesOption.get * 60)
+    )
+  }
+
+
+  "Time limit in seconds" should "be None if time limit in minutes is None" in {
+    require(ProblemB.timeLimitInMinutesOption.isEmpty)
+
+    ProblemB.timeLimitInSecondsOption should be(None)
   }
 }
