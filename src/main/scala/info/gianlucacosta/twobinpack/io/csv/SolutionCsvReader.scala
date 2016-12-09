@@ -25,7 +25,6 @@ package info.gianlucacosta.twobinpack.io.csv
 import java.io.BufferedReader
 import java.util.UUID
 
-import info.gianlucacosta.helios.io.DecoratorReader
 import info.gianlucacosta.twobinpack.core._
 import info.gianlucacosta.twobinpack.io.MissingProblemException
 import info.gianlucacosta.twobinpack.io.repositories.ProblemRepository
@@ -41,7 +40,7 @@ import info.gianlucacosta.twobinpack.io.repositories.ProblemRepository
 class SolutionCsvReader(
                          sourceReader: BufferedReader,
                          problemRetriever: (UUID, UUID) => Problem
-                       ) extends DecoratorReader(sourceReader) {
+                       ) extends SolutionCsvReaderBase(sourceReader) {
 
   /**
     * Simplified constructor, employing a ProblemRepository to retrieve problems
@@ -63,7 +62,8 @@ class SolutionCsvReader(
       )
   )
 
-  def readSolution(): Option[Solution] = {
+
+  override def readSolution(): Option[Solution] = {
     val uuidLine: String =
       sourceReader.readLine()
 
@@ -98,7 +98,7 @@ class SolutionCsvReader(
 
 
       val blocks =
-        parseBlocks()
+        parseAnchoredBlocks()
 
 
       Some(
@@ -113,35 +113,4 @@ class SolutionCsvReader(
     } else
       None
   }
-
-
-  /**
-    * Reads a line
-    *
-    * @return The line, or null on EOF
-    */
-  def readLine(): String =
-    sourceReader.readLine()
-
-
-  private def parseBlocks(): Set[AnchoredBlock] =
-    parseLineBlock(
-      trimmedLine => {
-        val blockParameters =
-          trimmedLine.split(',')
-            .map(_.toInt)
-
-        AnchoredBlock(
-          BlockDimension(
-            blockParameters(0),
-            blockParameters(1)
-          ),
-
-          QuantizedPoint2D(
-            blockParameters(2),
-            blockParameters(3)
-          )
-        )
-      }
-    ).toSet
 }
