@@ -81,6 +81,10 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
   blockBorderSize <==
     resolution / 10
 
+  blockBorderSize.onChange {
+    render()
+  }
+
 
   private val _blockGallery =
     new SimpleObjectProperty[BlockGallery](frameTemplate.blockGallery)
