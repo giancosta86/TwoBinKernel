@@ -20,9 +20,10 @@
   ===========================================================================
 */
 
-package info.gianlucacosta.twobinpack.io.csv
+package info.gianlucacosta.twobinpack.io.csv.v2
 
 import java.io.BufferedReader
+import java.time.Duration
 import java.util.UUID
 
 import info.gianlucacosta.helios.io.DecoratorReader
@@ -31,17 +32,17 @@ import info.gianlucacosta.twobinpack.io.MissingProblemException
 import info.gianlucacosta.twobinpack.io.repositories.ProblemRepository
 
 /**
-  * Reader providing a dedicated method for reading solutions from CSV
+  * Reader providing a dedicated method for reading solutions from CSV - according to version 2 of the document format
   *
   * @param sourceReader     The source reader
   * @param problemRetriever A function (problemId, solutionId) => Problem,
   *                         used to retrieve the Problem object when
   *                         instantiating the Solution
   */
-class SolutionCsvReader(
-                         sourceReader: BufferedReader,
-                         problemRetriever: (UUID, UUID) => Problem
-                       ) extends DecoratorReader(sourceReader) {
+class SolutionCsvReader2(
+                          sourceReader: BufferedReader,
+                          problemRetriever: (UUID, UUID) => Problem
+                        ) extends DecoratorReader(sourceReader) {
 
   /**
     * Simplified constructor, employing a ProblemRepository to retrieve problems
@@ -92,9 +93,19 @@ class SolutionCsvReader(
         else
           None
 
-      //It was not present in the first version of the document format
+
+      val elapsedTimeOptionLine =
+        sourceReader.readLine().trim
+
       val elapsedTimeOption =
-      None
+        if (elapsedTimeOptionLine.nonEmpty)
+          Some(
+            Duration.ofSeconds(
+              elapsedTimeOptionLine.toInt
+            )
+          )
+        else
+          None
 
 
       val blocks =

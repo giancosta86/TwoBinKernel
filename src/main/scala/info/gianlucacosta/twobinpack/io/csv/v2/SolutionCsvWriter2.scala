@@ -20,7 +20,7 @@
   ===========================================================================
 */
 
-package info.gianlucacosta.twobinpack.io.csv
+package info.gianlucacosta.twobinpack.io.csv.v2
 
 import java.io.Writer
 
@@ -28,12 +28,11 @@ import info.gianlucacosta.helios.io.DecoratorWriter
 import info.gianlucacosta.twobinpack.core.Solution
 
 /**
-  * Writer providing a dedicated method for writing solutions to CSV
+  * Writer providing a dedicated method for writing solutions to CSV - according to version 2 of the document format
   *
   * @param targetWriter
   */
-@Deprecated
-class SolutionCsvWriter(targetWriter: Writer) extends DecoratorWriter(targetWriter) {
+class SolutionCsvWriter2(targetWriter: Writer) extends DecoratorWriter(targetWriter) {
   def writeSolution(solution: Solution): Unit = {
     targetWriter.write(solution.id.toString)
     targetWriter.write("\r\n")
@@ -42,6 +41,13 @@ class SolutionCsvWriter(targetWriter: Writer) extends DecoratorWriter(targetWrit
     targetWriter.write("\r\n")
 
     targetWriter.write(solution.solverOption.getOrElse(""))
+    targetWriter.write("\r\n")
+
+    targetWriter.write(
+      solution.elapsedTimeOption
+        .map(_.getSeconds.toString)
+        .getOrElse("")
+    )
     targetWriter.write("\r\n")
 
     solution.blocks.foreach(block => {
