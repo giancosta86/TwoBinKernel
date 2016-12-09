@@ -101,6 +101,7 @@ class SolutionCsvReader(
         Solution(
           problem,
           solverOption,
+          None,
           blocks,
           solutionId
         )

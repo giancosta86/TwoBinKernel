@@ -64,6 +64,7 @@ private[gianlucacosta] object SimpleTestData {
     Solution(
       ProblemA,
       Some("Test user"),
+      None,
 
       Set(
         AnchoredBlock(
@@ -84,6 +85,7 @@ private[gianlucacosta] object SimpleTestData {
   val SolutionA2 =
     Solution(
       ProblemA,
+      None,
       None,
 
       Set(
@@ -152,6 +154,7 @@ private[gianlucacosta] object SimpleTestData {
   val SolutionB1 =
     Solution(
       ProblemB,
+      None,
       None,
 
       Set(

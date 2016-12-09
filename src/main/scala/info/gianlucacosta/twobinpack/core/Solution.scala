@@ -22,6 +22,7 @@
 
 package info.gianlucacosta.twobinpack.core
 
+import java.time.Duration
 import java.util.UUID
 
 
@@ -48,17 +49,27 @@ object Solution {
   *
   * On construction, it ensures its block actually define a valid solution to the given problem.
   *
-  * @param problem      The problem instance
-  * @param solverOption The optional nickname of the solver
-  * @param blocks       The blocks composing the solution
-  * @param id           The solution's unique identifier
+  * @param problem           The problem instance
+  * @param solverOption      The optional nickname of the solver
+  * @param elapsedTimeOption The time required to reach this solution
+  * @param blocks            The blocks composing the solution
+  * @param id                The solution's unique identifier
   */
 case class Solution(
                      problem: Problem,
                      solverOption: Option[String],
+                     elapsedTimeOption: Option[Duration],
                      blocks: Set[AnchoredBlock],
                      id: UUID = UUID.randomUUID()
                    ) extends Ordered[Solution] {
+  elapsedTimeOption.foreach(elapsedTime =>
+    require(
+      !elapsedTime.isNegative,
+      "The elapsed time cannot be negative"
+    )
+  )
+
+
   blocks.foreach(leftBlock =>
     blocks.foreach(rightBlock =>
       require(

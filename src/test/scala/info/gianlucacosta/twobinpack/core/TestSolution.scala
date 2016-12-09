@@ -22,6 +22,8 @@
 
 package info.gianlucacosta.twobinpack.core
 
+import java.time.Duration
+
 import info.gianlucacosta.twobinpack.test.SimpleTestData
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -48,6 +50,7 @@ class TestSolution extends FlatSpec with Matchers {
     intercept[NoSuchElementException] {
       Solution(
         problem,
+        None,
         None,
         Set(
           AnchoredBlock(
@@ -82,6 +85,7 @@ class TestSolution extends FlatSpec with Matchers {
     intercept[NoSuchElementException] {
       Solution(
         problem,
+        None,
         None,
         Set(
           AnchoredBlock(
@@ -119,6 +123,7 @@ class TestSolution extends FlatSpec with Matchers {
     Solution(
       problem,
       None,
+      None,
       Set(
         AnchoredBlock(
           rotatedDimension,
@@ -148,6 +153,7 @@ class TestSolution extends FlatSpec with Matchers {
 
     Solution(
       problem,
+      None,
       None,
       Set(
         AnchoredBlock(
@@ -188,6 +194,7 @@ class TestSolution extends FlatSpec with Matchers {
     intercept[IllegalArgumentException] {
       Solution(
         problem,
+        None,
         None,
         Set(
           AnchoredBlock(
@@ -230,6 +237,7 @@ class TestSolution extends FlatSpec with Matchers {
     intercept[IllegalArgumentException] {
       Solution(
         problem,
+        None,
         None,
         Set(
           AnchoredBlock(
@@ -280,6 +288,7 @@ class TestSolution extends FlatSpec with Matchers {
       Solution(
         problem,
         None,
+        None,
         Set(
           AnchoredBlock(
             blockDimension,
@@ -313,6 +322,7 @@ class TestSolution extends FlatSpec with Matchers {
       Solution(
         problem,
         None,
+        None,
         Set(
           AnchoredBlock(
             blockDimension,
@@ -345,6 +355,7 @@ class TestSolution extends FlatSpec with Matchers {
     intercept[IllegalArgumentException] {
       Solution(
         problem,
+        None,
         None,
         Set(
           AnchoredBlock(
@@ -382,6 +393,7 @@ class TestSolution extends FlatSpec with Matchers {
       Solution(
         problem,
         None,
+        None,
         Set(
           AnchoredBlock(
             blockDimension,
@@ -414,6 +426,7 @@ class TestSolution extends FlatSpec with Matchers {
     intercept[IllegalArgumentException] {
       Solution(
         problem,
+        None,
         None,
         Set(
           AnchoredBlock(
@@ -448,6 +461,7 @@ class TestSolution extends FlatSpec with Matchers {
     Solution(
       problem,
       None,
+      None,
       Set(
         AnchoredBlock(
           blockDimension,
@@ -479,6 +493,7 @@ class TestSolution extends FlatSpec with Matchers {
     intercept[IllegalArgumentException] {
       Solution(
         problem,
+        None,
         None,
         Set(
           AnchoredBlock(
@@ -513,6 +528,7 @@ class TestSolution extends FlatSpec with Matchers {
     Solution(
       problem,
       None,
+      None,
       Set(
         AnchoredBlock(
           blockDimension,
@@ -536,6 +552,7 @@ class TestSolution extends FlatSpec with Matchers {
       Solution(
         problem,
         None,
+        None,
         Set()
       )
 
@@ -553,6 +570,7 @@ class TestSolution extends FlatSpec with Matchers {
     val solution =
       Solution(
         problem,
+        None,
         None,
         Set()
       )
@@ -573,6 +591,7 @@ class TestSolution extends FlatSpec with Matchers {
     val solution =
       Solution(
         problem,
+        None,
         None,
         Set(
           AnchoredBlock(
@@ -685,6 +704,7 @@ class TestSolution extends FlatSpec with Matchers {
       Solution(
         problem,
         None,
+        None,
         blocks
       )
 
@@ -770,6 +790,7 @@ class TestSolution extends FlatSpec with Matchers {
       Solution(
         problem,
         None,
+        None,
         blocks
       )
 
@@ -777,5 +798,37 @@ class TestSolution extends FlatSpec with Matchers {
     require(blocks.size == problem.frameTemplate.blockPool.totalBlockCount)
     require(blocks.map(_.right).max == 17)
     solution.target should be(Some(18))
+  }
+
+
+  "A solution" should "accept a zero time elapsed" in {
+    val problem =
+      SimpleTestData.ProblemA
+
+    require(problem.timeLimitInMinutesOption.nonEmpty)
+
+    Solution(
+      problem,
+      None,
+      Some(Duration.ZERO),
+      Set()
+    )
+  }
+
+
+  "A solution" should "NOT accept a negative time elapsed" in {
+    val problem =
+      SimpleTestData.ProblemA
+
+    require(problem.timeLimitInMinutesOption.nonEmpty)
+
+    intercept[IllegalArgumentException] {
+      Solution(
+        problem,
+        None,
+        Some(Duration.ofMinutes(-2)),
+        Set()
+      )
+    }
   }
 }
