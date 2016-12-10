@@ -20,7 +20,7 @@
   ===========================================================================
 */
 
-package info.gianlucacosta.helios.xml
+package info.gianlucacosta.twobinpack.io
 
 import java.time.Duration
 
@@ -32,14 +32,14 @@ class DurationConverter extends Converter {
     val duration =
       source.asInstanceOf[Duration]
 
-    writer.setValue(duration.toMillis.toString)
+    writer.setValue(duration.getSeconds.toString)
   }
 
   override def unmarshal(reader: HierarchicalStreamReader, context: UnmarshallingContext): AnyRef = {
-    val millis =
+    val seconds =
       reader.getValue.toLong
 
-    Duration.ofMillis(millis)
+    Duration.ofSeconds(seconds)
   }
 
   override def canConvert(targetClass: Class[_]): Boolean =
