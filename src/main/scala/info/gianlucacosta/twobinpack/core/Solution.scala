@@ -25,6 +25,8 @@ package info.gianlucacosta.twobinpack.core
 import java.time.Duration
 import java.util.UUID
 
+import info.gianlucacosta.helios.Includes._
+
 
 object Solution {
   /**
@@ -62,12 +64,19 @@ case class Solution(
                      blocks: Set[AnchoredBlock],
                      id: UUID = UUID.randomUUID()
                    ) extends Ordered[Solution] {
-  elapsedTimeOption.foreach(elapsedTime =>
+  elapsedTimeOption.foreach(elapsedTime => {
     require(
-      !elapsedTime.isNegative,
+      elapsedTime >= Duration.ZERO,
       "The elapsed time cannot be negative"
     )
-  )
+
+    problem.timeLimitOption.foreach(problemTimeLimit =>
+      require(
+        elapsedTime <= problemTimeLimit,
+        "The elapsedTime cannot be exceed the problem's time limit"
+      )
+    )
+  })
 
 
   blocks.foreach(leftBlock =>

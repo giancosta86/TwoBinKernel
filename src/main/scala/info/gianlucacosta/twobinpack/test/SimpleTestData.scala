@@ -22,6 +22,8 @@
 
 package info.gianlucacosta.twobinpack.test
 
+import java.time.Duration
+
 import info.gianlucacosta.twobinpack.core._
 
 private[gianlucacosta] object SimpleTestData {
@@ -54,7 +56,7 @@ private[gianlucacosta] object SimpleTestData {
         30
       ),
 
-      Some(5),
+      Some(Duration.ofMinutes(5)),
 
       "ProblemA"
     )

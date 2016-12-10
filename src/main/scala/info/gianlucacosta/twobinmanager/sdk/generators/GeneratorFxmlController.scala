@@ -22,6 +22,7 @@
 
 package info.gianlucacosta.twobinmanager.sdk.generators
 
+import java.time.Duration
 import javafx.fxml.FXML
 import javafx.stage.Stage
 
@@ -69,17 +70,9 @@ abstract class GeneratorFxmlController {
       val timeLimitInMinutesValue =
         maxTimeField.getText.toInt
 
-      val timeLimitInMinutesOption: Option[Int] =
-        if (timeLimitInMinutesValue > 0)
-          Some(timeLimitInMinutesValue)
-        else
-          None
-
-
       val defaultProblemName =
         Problem.getSuggestedName(
-          frameTemplate,
-          timeLimitInMinutesOption
+          frameTemplate
         )
 
 
@@ -90,11 +83,21 @@ abstract class GeneratorFxmlController {
         )
 
 
+      val timeLimitOption: Option[Duration] =
+        if (timeLimitInMinutesValue > 0)
+          Some(
+            Duration.ofMinutes(
+              timeLimitInMinutesValue
+            )
+          )
+        else
+          None
+
       problemNameOption.foreach(problemName => {
         val problem =
           Problem(
             frameTemplate,
-            timeLimitInMinutesOption,
+            timeLimitOption,
             problemName
           )
 

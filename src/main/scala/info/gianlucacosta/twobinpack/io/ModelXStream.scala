@@ -27,6 +27,7 @@ import java.util.UUID
 import com.thoughtworks.xstream.XStream
 import com.thoughtworks.xstream.io.xml.StaxDriver
 import com.thoughtworks.xstream.security.{NoTypePermission, NullPermission, PrimitiveTypePermission}
+import info.gianlucacosta.helios.xml.DurationConverter
 import info.gianlucacosta.twobinpack.core._
 
 /**
@@ -45,7 +46,8 @@ private object ModelXStream extends XStream(new StaxDriver) {
 
     allowTypesByWildcard(Array(
       "info.gianlucacosta.twobinpack.**",
-      "scala.collection.**"
+      "scala.collection.**",
+      "java.time.**"
     ))
 
 
@@ -58,6 +60,8 @@ private object ModelXStream extends XStream(new StaxDriver) {
 
       classOf[UUID]
     ))
+
+    registerConverter(new DurationConverter)
   }
 
 

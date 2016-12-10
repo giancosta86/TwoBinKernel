@@ -24,6 +24,7 @@ package info.gianlucacosta.twobinpack.core
 
 import java.time.Duration
 
+import info.gianlucacosta.helios.Includes._
 import info.gianlucacosta.twobinpack.test.SimpleTestData
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -801,11 +802,11 @@ class TestSolution extends FlatSpec with Matchers {
   }
 
 
-  "A solution" should "accept a zero time elapsed" in {
+  "A solution having elapsed time equal to 0" should "be valid" in {
     val problem =
       SimpleTestData.ProblemA
 
-    require(problem.timeLimitInMinutesOption.nonEmpty)
+    require(problem.timeLimitOption.nonEmpty)
 
     Solution(
       problem,
@@ -816,11 +817,11 @@ class TestSolution extends FlatSpec with Matchers {
   }
 
 
-  "A solution" should "NOT accept a negative time elapsed" in {
+  "A solution having negative elapsed time" should "NOT be valid" in {
     val problem =
       SimpleTestData.ProblemA
 
-    require(problem.timeLimitInMinutesOption.nonEmpty)
+    require(problem.timeLimitOption.nonEmpty)
 
     intercept[IllegalArgumentException] {
       Solution(
@@ -830,5 +831,99 @@ class TestSolution extends FlatSpec with Matchers {
         Set()
       )
     }
+  }
+
+
+  "A solution having no elapsed time and problem with time limit defined" should "be valid" in {
+    val problem =
+      SimpleTestData.ProblemA
+
+    require(problem.timeLimitOption.nonEmpty)
+
+    Solution(
+      problem,
+      None,
+      None,
+      Set()
+    )
+  }
+
+
+  "A solution having no elapsed time and problem with no time limit" should "be valid" in {
+    val problem =
+      SimpleTestData.ProblemB
+
+    require(problem.timeLimitOption.isEmpty)
+
+    Solution(
+      problem,
+      None,
+      None,
+      Set()
+    )
+  }
+
+
+  "A solution having elapsed time defined and problem with no time limit" should "be valid" in {
+    val problem =
+      SimpleTestData.ProblemB
+
+    require(problem.timeLimitOption.isEmpty)
+
+    Solution(
+      problem,
+      None,
+      Some(Duration.ofSeconds(42)),
+      Set()
+    )
+  }
+
+
+  "A solution having elapsed time greater than the problem's time limit" should "NOT be valid" in {
+    val problem =
+      SimpleTestData.ProblemA
+
+    require(problem.timeLimitOption.nonEmpty)
+
+    intercept[IllegalArgumentException] {
+      Solution(
+        problem,
+        None,
+        Some(problem.timeLimitOption.get + Duration.ofSeconds(1)),
+        Set()
+      )
+    }
+  }
+
+
+  "A solution having elapsed time less than the problem's time limit" should "be valid" in {
+    val problem =
+      SimpleTestData.ProblemA
+
+    require(problem.timeLimitOption.nonEmpty)
+    require(problem.timeLimitOption.get.getSeconds > 2)
+
+    Solution(
+      problem,
+      None,
+      Some(problem.timeLimitOption.get - Duration.ofSeconds(1)),
+      Set()
+    )
+  }
+
+
+  "A solution having elapsed time equal to the problem's time limit" should "be valid" in {
+    val problem =
+      SimpleTestData.ProblemA
+
+    require(problem.timeLimitOption.nonEmpty)
+    require(problem.timeLimitOption.get > Duration.ZERO)
+
+    Solution(
+      problem,
+      None,
+      Some(problem.timeLimitOption.get),
+      Set()
+    )
   }
 }

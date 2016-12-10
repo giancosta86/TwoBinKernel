@@ -36,14 +36,18 @@ class TestProblemBundleWriterReader extends WriterReaderTestBase[ProblemBundle, 
     ))
   }
 
+
   override protected def createWriter(targetWriter: Writer): ProblemBundleWriter =
     new ProblemBundleWriter(targetWriter)
+
 
   override protected def exportObject(writer: ProblemBundleWriter, originalObject: ProblemBundle): Unit =
     writer.writeProblemBundle(originalObject)
 
+
   override protected def createReader(sourceReader: BufferedReader): ProblemBundleReader =
     new ProblemBundleReader(sourceReader)
+
 
   override protected def importObject(reader: ProblemBundleReader): ProblemBundle =
     reader.readProblemBundle()

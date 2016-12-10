@@ -22,11 +22,14 @@
 
 package info.gianlucacosta.twobinpack.core
 
+import java.time.Duration
 import java.util.UUID
 
+import info.gianlucacosta.helios.Includes._
+
 object Problem {
-  val MaxTimeLimitInMinutes =
-    60 * 24
+  val MaxTimeLimit =
+    Duration.ofDays(1)
 
   val MinResolution =
     1
@@ -41,11 +44,10 @@ object Problem {
   /**
     * Provides a suggested name for a problem given a few of its parameters
     *
-    * @param frameTemplate            The frame template
-    * @param timeLimitInMinutesOption The time limit in minutes
-    * @return
+    * @param frameTemplate The frame template
+    * @return The suggested name
     */
-  def getSuggestedName(frameTemplate: FrameTemplate, timeLimitInMinutesOption: Option[Int]): String = {
+  def getSuggestedName(frameTemplate: FrameTemplate): String = {
     val rotationString =
       if (frameTemplate.blockPool.canRotateBlocks)
         "R"
@@ -62,33 +64,34 @@ object Problem {
   *
   * Problems are ordered by name.
   *
-  * @param frameTemplate            The template underlying the problem's frame
-  * @param timeLimitInMinutesOption The time limit, in minutes. Cannot exceed 1 day. If None, no time limit will be set
-  * @param name                     The problem name. Must not be empty
-  * @param id                       The unique ID
+  * @param frameTemplate   The template underlying the problem's frame
+  * @param timeLimitOption The optional time limit. Cannot exceed 1 day. If None, no time limit will be set
+  * @param name            The problem name. Must not be empty
+  * @param id              The unique ID
   */
 case class Problem(
                     frameTemplate: FrameTemplate,
-                    timeLimitInMinutesOption: Option[Int],
+                    timeLimitOption: Option[Duration],
                     name: String,
                     id: UUID = UUID.randomUUID()
                   ) extends Ordered[Problem] {
-  timeLimitInMinutesOption.foreach(timeLimitInMinutes => {
+  timeLimitOption.foreach(timeLimit => {
     require(
-      1 <= timeLimitInMinutes && timeLimitInMinutes <= Problem.MaxTimeLimitInMinutes,
-      s"The time limit in minute, when present, must be in the range [1..${Problem.MaxTimeLimitInMinutes}]"
+      timeLimit > Duration.ZERO,
+      "The time limit must be a positive duration"
+    )
+
+    require(
+      timeLimit <= Problem.MaxTimeLimit,
+      "The time limit cannot exceed its maximum value"
     )
   })
+
 
   require(
     name.nonEmpty,
     "The problem name cannot be empty"
   )
-
-
-  @transient
-  lazy val timeLimitInSecondsOption: Option[Int] =
-    timeLimitInMinutesOption.map(_ * 60)
 
 
   override def compare(that: Problem): Int =

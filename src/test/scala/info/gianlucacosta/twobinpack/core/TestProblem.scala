@@ -22,6 +22,9 @@
 
 package info.gianlucacosta.twobinpack.core
 
+import java.time.Duration
+
+import info.gianlucacosta.helios.Includes._
 import info.gianlucacosta.twobinpack.test.SimpleTestData.{ProblemA, ProblemB}
 import org.scalatest.{FlatSpec, Matchers}
 
@@ -46,18 +49,42 @@ class TestProblem extends FlatSpec with Matchers {
   }
 
 
-  "Time limit in seconds" should "be correct if time limit in minutes is defined" in {
-    require(ProblemA.timeLimitInMinutesOption.isDefined)
-
-    ProblemA.timeLimitInSecondsOption should be(
-      Some(ProblemA.timeLimitInMinutesOption.get * 60)
-    )
+  "A problem having negative time limit" should "NOT be valid" in {
+    intercept[IllegalArgumentException] {
+      ProblemA.copy(
+        timeLimitOption =
+          Some(Duration.ofMinutes(-2))
+      )
+    }
   }
 
 
-  "Time limit in seconds" should "be None if time limit in minutes is None" in {
-    require(ProblemB.timeLimitInMinutesOption.isEmpty)
+  "A problem having time limit equal to zero" should "NOT be valid" in {
+    intercept[IllegalArgumentException] {
+      ProblemA.copy(
+        timeLimitOption =
+          Some(Duration.ZERO)
+      )
+    }
+  }
 
-    ProblemB.timeLimitInSecondsOption should be(None)
+
+  "A problem having time limit exceeding the maximum value" should "NOT be valid" in {
+    intercept[IllegalArgumentException] {
+      ProblemA.copy(
+        timeLimitOption =
+          Some(Problem.MaxTimeLimit + Duration.ofSeconds(1))
+      )
+    }
+  }
+
+
+  "A problem having positive time limit" should "be valid" in {
+    require(ProblemB.timeLimitOption.isEmpty)
+
+    ProblemB.copy(
+      timeLimitOption =
+        Some(Duration.ofMinutes(5))
+    )
   }
 }

@@ -22,6 +22,7 @@
 
 package info.gianlucacosta.twobinpack.core
 
+import java.time.Duration
 import java.util.UUID
 
 import scalafx.scene.paint.Color
@@ -49,7 +50,7 @@ case class StandardProblem(
                  blockColorsPool: List[Color],
                  canRotateBlocks: Boolean,
                  resolution: Int,
-                 timeLimitInMinutesOption: Option[Int]
+                 timeLimitOption: Option[Duration]
                ): Problem = {
 
     val blockPool: BlockPool =
@@ -71,7 +72,7 @@ case class StandardProblem(
 
     Problem(
       frameTemplate,
-      timeLimitInMinutesOption,
+      timeLimitOption,
       name,
       id
     )
