@@ -1,4 +1,4 @@
-package info.gianlucacosta.helios.xml
+package info.gianlucacosta.helios
 
 import java.time.Duration
 
