@@ -29,6 +29,9 @@ object FileExtensions {
   val ProblemBundle =
     ".tbprob"
 
+  val ProblemBundle_v2 =
+    ".tbprob2"
+
 
   val CsvSolutionFile =
     ".tbsol"
