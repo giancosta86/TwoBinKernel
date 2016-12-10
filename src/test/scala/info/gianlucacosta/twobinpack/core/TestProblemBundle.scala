@@ -22,14 +22,36 @@
 
 package info.gianlucacosta.twobinpack.core
 
-/**
-  * An ordered list of distinct problems
-  *
-  * @param problems The problems in the bundle. All the problems must be distinct
-  */
-case class ProblemBundle(problems: List[Problem]) {
-  require(
-    problems.distinct == problems,
-    "The problems in a problem bundle must be unique"
-  )
+import info.gianlucacosta.twobinpack.test.SimpleTestData.{ProblemA, ProblemB}
+import org.scalatest.{FlatSpec, Matchers}
+
+
+class TestProblemBundle extends FlatSpec with Matchers {
+  "An empty problem bundle" should "be valid" in {
+    ProblemBundle(List())
+  }
+
+
+  "A problem bundle with one problem" should "be valid" in {
+    ProblemBundle(List(ProblemA))
+  }
+
+
+  "A problem bundle with two problems" should "be valid" in {
+    ProblemBundle(List(
+      ProblemA,
+      ProblemB
+    ))
+  }
+
+
+  "A problem bundle with a duplicated problem" should "NOT be valid" in {
+    intercept[IllegalArgumentException] {
+      ProblemBundle(List(
+        ProblemA,
+        ProblemB,
+        ProblemA
+      ))
+    }
+  }
 }
