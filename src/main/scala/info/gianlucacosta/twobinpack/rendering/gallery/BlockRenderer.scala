@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -40,11 +40,11 @@ private object BlockRenderer {
     * Font used by the description label
     */
   private val descriptionFont =
-  Font.font(
-    "Arial",
-    FontWeight.Bold,
-    14
-  )
+    Font.font(
+      "Arial",
+      FontWeight.Bold,
+      14
+    )
 }
 
 /**
@@ -59,7 +59,9 @@ private class BlockRenderer(
                              blockGalleryPane: BlockGalleryPane,
                              blockDimension: BlockDimension,
                              quantity: Int,
-                             color: Color) extends VBox {
+                             color: Color,
+                             labelText: String
+                           ) extends VBox {
 
   alignment =
     Pos.Center
@@ -114,14 +116,8 @@ private class BlockRenderer(
 
   private val descriptionLabel =
     new Label {
-      private val blockName =
-        if (quantity == 1)
-          "block"
-        else
-          "blocks"
-
       text =
-        s"${quantity} ${blockName} ${blockDimension.width} x ${blockDimension.height}"
+        labelText
 
       font =
         BlockRenderer.descriptionFont

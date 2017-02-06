@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -37,14 +37,26 @@ import scalafx.scene.layout.FlowPane
   *
   * Can be styled via the <i>blockGalleryPane</i> CSS class.
   *
-  * @param blockGallery The block gallery to render
-  * @param colorPalette The color palette used to paint the blocks
-  * @param resolution   The number of pixels per quantum units
+  * @param blockGallery    The block gallery to render
+  * @param colorPalette    The color palette used to paint the blocks
+  * @param resolution      The number of pixels per quantum units
+  * @param labelTextFormat The string to be shown in the label related to each block dimension.
+  *                        It can contain a few placeholders:
+  *                        <ul>
+  *                        <li><b>%Q</b>: The quantity of blocks (of such dimension) available</li>
+  *                        <li><b>%B</b>: The string "block" or "blocks", according to the actual block quantity</li>
+  *                        <li><b>%W</b>: The dimension's width</li>
+  *                        <li><b>%H</b>: The dimension's height</li>
+  *                        </ul>
+  *                        If it is omitted, a default format string is provided.
+  * @param sortAscending   If true (the default), blocks will be sorted by increasing dimension
   */
 class BlockGalleryPane(
                         blockGallery: BlockGallery,
                         colorPalette: ColorPalette,
-                        val resolution: Int
+                        val resolution: Int,
+                        val labelTextFormat: String = s"%Q %B %W x %H",
+                        sortAscending: Boolean = true
                       ) extends FlowPane {
 
   require(
@@ -73,32 +85,58 @@ class BlockGalleryPane(
     * @return
     */
   def interactive: BooleanProperty =
-  _interactive
+    _interactive
 
   def interactive_=(newValue: Boolean) =
     _interactive() =
       newValue
 
 
-  blockGallery.availableBlocks
-    .toList
-    .sortBy {
-      case (blockDimension, quantity) =>
-        blockDimension
-    }
-    .foreach {
-      case (blockDimension, quantity) =>
-        val color =
-          colorPalette.getColor(blockDimension)
+  {
+    val ascendingSortedBlocks =
+      blockGallery.availableBlocks
+        .toList
+        .sortBy {
+          case (blockDimension, quantity) =>
+            blockDimension
+        }
 
-        val blockRenderer =
-          new BlockRenderer(
-            this,
-            blockDimension,
-            quantity,
-            color
-          )
 
-        children.add(blockRenderer)
-    }
+    val sortedBlocks =
+      if (sortAscending)
+        ascendingSortedBlocks
+      else
+        ascendingSortedBlocks.reverse
+
+
+    sortedBlocks
+      .foreach {
+        case (blockDimension, quantity) =>
+          val color =
+            colorPalette.getColor(blockDimension)
+
+          val labelText =
+            labelTextFormat
+              .replaceAll("%Q", quantity.toString)
+              .replaceAll("%B",
+                if (quantity == 1)
+                  "block"
+                else
+                  "blocks"
+              )
+              .replaceAll("%W", blockDimension.width.toString)
+              .replaceAll("%H", blockDimension.height.toString)
+
+          val blockRenderer =
+            new BlockRenderer(
+              this,
+              blockDimension,
+              quantity,
+              color,
+              labelText
+            )
+
+          children.add(blockRenderer)
+      }
+  }
 }
