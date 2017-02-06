@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -31,16 +31,24 @@ import scalafx.scene.layout.{BorderPane, VBox}
   *
   * @param frame
   */
-class AxesPane(frame: Frame) extends BorderPane {
-  left =
-    new VerticalAxis(frame)
+class AxesPane(
+                frame: Frame,
+                showVerticalAxis: Boolean = true,
+                showHorizontalAxis: Boolean = true
+              ) extends BorderPane {
+  if (showVerticalAxis) {
+    left =
+      new VerticalAxis(frame)
+  }
 
 
-  center =
-    new VBox {
-      children = List(
-        frame,
-        new HorizontalAxis(frame)
-      )
-    }
+  if (showHorizontalAxis) {
+    center =
+      new VBox {
+        children = List(
+          frame,
+          new HorizontalAxis(frame)
+        )
+      }
+  }
 }
