@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -184,6 +184,41 @@ private[gianlucacosta] object SimpleTestData {
           )
         )
       )
+    )
+
+
+  val BppProblem =
+    Problem(
+      FrameTemplate(
+        FrameDimension(
+          1,
+          15
+        ),
+
+        FrameMode.Strip,
+
+        BlockPool.create(
+          canRotateBlocks = false,
+
+          BlockDimension(
+            1,
+            1
+          ) -> 5,
+
+          BlockDimension(
+            1,
+            4
+          ) -> 2
+        ),
+
+        FrameTemplate.SuggestedBlockColorsPool,
+
+        30
+      ),
+
+      Some(Duration.ofMinutes(5)),
+
+      "BPP problem"
     )
 
 

@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -25,7 +25,7 @@ package info.gianlucacosta.twobinpack.core
 import java.time.Duration
 
 import info.gianlucacosta.helios.Includes._
-import info.gianlucacosta.twobinpack.test.SimpleTestData.{ProblemA, ProblemB}
+import info.gianlucacosta.twobinpack.test.SimpleTestData.{BppProblem, ProblemA, ProblemB}
 import org.scalatest.{FlatSpec, Matchers}
 
 class TestProblem extends FlatSpec with Matchers {
@@ -86,5 +86,84 @@ class TestProblem extends FlatSpec with Matchers {
       timeLimitOption =
         Some(Duration.ofMinutes(5))
     )
+  }
+
+
+  "A problem with at least one block having width > 1" should "NOT be BPP" in {
+    val problem =
+      ProblemA
+
+    require(problem.frameTemplate.blockPool.blockDimensions.exists(_.width > 1))
+
+    problem.isBinPacking should be(false)
+  }
+
+
+  "The test BPP problem" should "be detected as BPP" in {
+    val problem =
+      BppProblem
+
+    problem.isBinPacking should be(true)
+  }
+
+
+  "A problem in Knapsack mode" should "NOT be BPP" in {
+    val newFrameTemplate =
+      BppProblem.frameTemplate.copy(
+        frameMode = FrameMode.Knapsack
+      )
+
+
+    val problem =
+      BppProblem.copy(
+        frameTemplate =
+          newFrameTemplate
+      )
+
+
+    problem.isBinPacking should be(false)
+  }
+
+
+  "A problem with rotation enabled" should "NOT be BPP" in {
+    val newBlockProol =
+      BppProblem.frameTemplate.blockPool.copy(
+        canRotateBlocks = true
+      )
+
+    val newFrameTemplate =
+      BppProblem.frameTemplate.copy(
+        blockPool = newBlockProol
+      )
+
+
+    val problem =
+      BppProblem.copy(
+        frameTemplate = newFrameTemplate
+      )
+
+    require(problem.frameTemplate.blockPool.canRotateBlocks)
+
+    problem.isBinPacking should be(false)
+  }
+
+
+  "A problem with initial width > 1" should "still be BPP" in {
+    val newFrameTemplate =
+      BppProblem.frameTemplate.copy(
+        initialDimension =
+          FrameDimension(
+            20,
+            15
+          )
+      )
+
+
+    val problem =
+      BppProblem.copy(
+        frameTemplate = newFrameTemplate
+      )
+
+    problem.isBinPacking should be(true)
   }
 }

@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -92,6 +92,15 @@ case class Problem(
     name.nonEmpty,
     "The problem name cannot be empty"
   )
+
+
+  /**
+    * True if the problem is a Bin Packing Problem (BPP)
+    */
+  lazy val isBinPacking: Boolean =
+    (frameTemplate.frameMode == FrameMode.Strip) &&
+      frameTemplate.blockPool.blockDimensions.forall(_.width == 1) &&
+      (!frameTemplate.blockPool.canRotateBlocks)
 
 
   override def compare(that: Problem): Int =
