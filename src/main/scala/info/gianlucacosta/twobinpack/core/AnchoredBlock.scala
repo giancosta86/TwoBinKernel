@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -88,10 +88,10 @@ case class AnchoredBlock(
     * @return True if the blocks overlap - totally or partially
     */
   def overlaps(other: AnchoredBlock): Boolean =
-  (anchor.left < other.anchor.left + other.dimension.width) &&
-    (anchor.left + dimension.width > other.anchor.left) &&
-    (top < other.top + other.dimension.height) &&
-    (top + dimension.height > other.top)
+    (anchor.left < other.anchor.left + other.dimension.width) &&
+      (anchor.left + dimension.width > other.anchor.left) &&
+      (top < other.top + other.dimension.height) &&
+      (top + dimension.height > other.top)
 
 
   /**
@@ -101,6 +101,6 @@ case class AnchoredBlock(
     * @return True if the point is within the block
     */
   def containsPoint(point: QuantizedPoint2D): Boolean =
-  (left <= point.left && point.left <= right) &&
-    (top <= point.top && point.top <= bottom)
+    (left <= point.left && point.left <= right) &&
+      (top <= point.top && point.top <= bottom)
 }

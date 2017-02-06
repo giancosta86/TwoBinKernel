@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -32,7 +32,7 @@ package object analytics {
     * between different analytics dimensions
     */
   type IntermediateCache =
-  Map[String, Any]
+    Map[String, Any]
 
 
   /**
@@ -50,5 +50,5 @@ package object analytics {
     * </ul>
     */
   type ChartRetriever =
-  (Iterable[Solution], IntermediateCache) => (Option[Chart], IntermediateCache)
+    (Iterable[Solution], IntermediateCache) => (Option[Chart], IntermediateCache)
 }

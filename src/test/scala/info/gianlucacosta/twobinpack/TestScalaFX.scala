@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -76,7 +76,6 @@ class TestScalaFX extends FlatSpec with Matchers with BeforeAndAfterEach {
     //The target label should now be affected only by the latest binding source
     targetLabel.text() should be("Delta")
   }
-
 
 
   "Parameterless onChange on a property" should "be triggered only when the property value changes" in {

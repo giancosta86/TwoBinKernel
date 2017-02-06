@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -33,7 +33,7 @@ object BlockPool {
     * @return
     */
   def create(canRotateBlocks: Boolean, draftBlocks: (BlockDimension, Int)*): BlockPool =
-  create(canRotateBlocks, draftBlocks.toMap)
+    create(canRotateBlocks, draftBlocks.toMap)
 
 
   /**

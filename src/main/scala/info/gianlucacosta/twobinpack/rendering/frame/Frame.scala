@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -52,7 +52,7 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @return
     */
   def interactive: BooleanProperty =
-  _interactive
+    _interactive
 
   def interactive_=(newValue: Boolean) =
     interactive() =
@@ -68,7 +68,7 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @return
     */
   def resolution: IntegerProperty =
-  _resolution
+    _resolution
 
   def resolution_=(newValue: Int) =
     resolution() =
@@ -95,7 +95,7 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @return
     */
   def blockGallery: ReadOnlyObjectProperty[BlockGallery] =
-  _blockGallery
+    _blockGallery
 
   private def blockGallery_=(newValue: BlockGallery) =
     _blockGallery() =
@@ -111,7 +111,7 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @return
     */
   def blocks: ReadOnlyObjectProperty[Set[AnchoredBlock]] =
-  _blocks
+    _blocks
 
   _blocks.onChange {
     render()
@@ -241,7 +241,7 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @return
     */
   def quantizedWidth: ReadOnlyIntegerProperty =
-  _quantizedWidth
+    _quantizedWidth
 
   _quantizedWidth <==
     Bindings.createIntegerBinding(
@@ -295,7 +295,7 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @return
     */
   def quantizedHeight: ReadOnlyIntegerProperty =
-  _quantizedHeight
+    _quantizedHeight
 
 
   private val _drawingWidth =
@@ -308,7 +308,7 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @return
     */
   private def drawingWidth: ReadOnlyDoubleProperty =
-  _drawingWidth
+    _drawingWidth
 
   _drawingWidth <==
     quantizedWidth * resolution
@@ -573,9 +573,9 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
     * @return The block containing the point, or None
     */
   private def getBlockContaining(quantizedPoint: QuantizedPoint2D): Option[AnchoredBlock] =
-  blocks().find(block =>
-    block.containsPoint(quantizedPoint)
-  )
+    blocks().find(block =>
+      block.containsPoint(quantizedPoint)
+    )
 
 
   /**
@@ -696,7 +696,6 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
                 case None =>
                   List()
               }
-
 
 
             val initialScrollIndexOption: Option[Int] =

@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -65,7 +65,6 @@ class TestSolution extends FlatSpec with Matchers {
       )
     }
   }
-
 
 
   "A solution" should "NOT include blocks not in the gallery" in {
@@ -177,7 +176,6 @@ class TestSolution extends FlatSpec with Matchers {
   }
 
 
-
   "A solution" should "NOT accept partially overlapping blocks" in {
     val problem =
       SimpleTestData.ProblemA
@@ -217,7 +215,6 @@ class TestSolution extends FlatSpec with Matchers {
       )
     }
   }
-
 
 
   "A solution" should "NOT allow adding more blocks than the quantity provided by the problem" in {
@@ -443,7 +440,6 @@ class TestSolution extends FlatSpec with Matchers {
   }
 
 
-
   "A Strip solution" should "accept blocks overflowing the frame's right edge" in {
     val problem =
       SimpleTestData.ProblemB
@@ -508,7 +504,6 @@ class TestSolution extends FlatSpec with Matchers {
       )
     }
   }
-
 
 
   "A Strip solution" should "accept blocks whose anchor is after the frame's right edge" in {
@@ -578,7 +573,6 @@ class TestSolution extends FlatSpec with Matchers {
 
     solution.target should be(None)
   }
-
 
 
   "A Knapsack solution" should "have target equal to the area not covered by blocks" in {
@@ -712,7 +706,6 @@ class TestSolution extends FlatSpec with Matchers {
     require(blocks.size == problem.frameTemplate.blockPool.totalBlockCount - 1)
     solution.target should be(None)
   }
-
 
 
   "A Strip solution" should "have target equal to the actual length of required ribbon" in {

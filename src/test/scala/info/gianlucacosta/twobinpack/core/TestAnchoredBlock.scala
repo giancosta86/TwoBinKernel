@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -327,7 +327,6 @@ class TestAnchoredBlock extends FlatSpec with Matchers {
   }
 
 
-
   "Blocks sharing the same top and overlapping" should "be identified" in {
     var blockA =
       AnchoredBlock(
@@ -434,7 +433,6 @@ class TestAnchoredBlock extends FlatSpec with Matchers {
   }
 
 
-
   "A rectangular block" should "contain its anchor" in {
     val blockAnchor =
       QuantizedPoint2D(
@@ -456,7 +454,6 @@ class TestAnchoredBlock extends FlatSpec with Matchers {
       blockAnchor
     ) should be(true)
   }
-
 
 
   "A rectangular block" should "contain an edge point" in {
@@ -483,7 +480,6 @@ class TestAnchoredBlock extends FlatSpec with Matchers {
       )
     ) should be(true)
   }
-
 
 
   "A rectangular block" should "contain an internal point" in {
@@ -513,7 +509,6 @@ class TestAnchoredBlock extends FlatSpec with Matchers {
       )
     ) should be(true)
   }
-
 
 
   "A rectangular block" should "NOT contain an external point" in {

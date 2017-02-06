@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -55,7 +55,7 @@ case class BlockGallery private(
     * @return The updated block gallery
     */
   def removeBlock(dimension: BlockDimension): BlockGallery =
-  updateQuantity(dimension, -1)
+    updateQuantity(dimension, -1)
 
 
   /**
@@ -68,7 +68,7 @@ case class BlockGallery private(
     * @return The updated block gallery
     */
   def addBlock(dimension: BlockDimension): BlockGallery =
-  updateQuantity(dimension, +1)
+    updateQuantity(dimension, +1)
 
 
   private def updateQuantity(blockDimension: BlockDimension, quantityDelta: Int): BlockGallery = {

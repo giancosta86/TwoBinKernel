@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -132,8 +132,6 @@ class TestBlockGalleryWithRotation extends FlatSpec with Matchers {
   }
 
 
-
-
   "The gallery without rotated blocks" should "increase the quantity of both related block dimensions" in {
     galleryWithoutRotatedBlocks
       .removeBlock(
@@ -171,7 +169,6 @@ class TestBlockGalleryWithRotation extends FlatSpec with Matchers {
       VerticalBlockDimension -> 479
     ))
   }
-
 
 
   "The gallery without rotated blocks" should "not increase a quantity above the initial level" in {

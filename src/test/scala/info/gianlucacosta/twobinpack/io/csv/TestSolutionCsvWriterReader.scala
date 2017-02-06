@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -100,8 +100,6 @@ class TestSolutionCsvWriterReader extends WriterReaderTestBase[Solution, Solutio
 
     secondRetrievedSolution should be(Some(solution2))
   }
-
-
 
 
   "Reading twice from a reader holding just one solution" should "return None the second time" in {

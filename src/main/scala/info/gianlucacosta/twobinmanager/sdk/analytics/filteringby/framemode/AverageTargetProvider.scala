@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -51,13 +51,13 @@ abstract class AverageTargetProvider[TGrouping](
     (
       setupAverageChart(allSolutions),
       intermediateCache
-      )
+    )
 
   override protected def getResultForFrameMode(allSolutions: Iterable[Solution], frameMode: FrameMode, frameModeSolutions: Iterable[Solution], intermediateCache: IntermediateCache): (Option[Chart], IntermediateCache) =
     (
       setupAverageChart(frameModeSolutions),
       intermediateCache
-      )
+    )
 
 
   /**
@@ -84,7 +84,7 @@ abstract class AverageTargetProvider[TGrouping](
                     else
                       0
                     )
-                  )
+                )
             }
 
           if (solutionsCount > 0)

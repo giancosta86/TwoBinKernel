@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -43,18 +43,18 @@ private case class PotentialCache(
     * The current potential block. None if compatibleBlocks is empty
     */
   val potentialBlockOption: Option[AnchoredBlock] =
-  currentBlockIndexOption.map(currentBlockIndex =>
-    compatibleBlocks(currentBlockIndex)._1
-  )
+    currentBlockIndexOption.map(currentBlockIndex =>
+      compatibleBlocks(currentBlockIndex)._1
+    )
 
 
   /**
     * The remaining quantity (in the gallery) of the current potential block. None if compatibleBlocks is empty
     */
   val potentialBlockQuantityOption: Option[Int] =
-  currentBlockIndexOption.map(currentBlockIndex =>
-    compatibleBlocks(currentBlockIndex)._2
-  )
+    currentBlockIndexOption.map(currentBlockIndex =>
+      compatibleBlocks(currentBlockIndex)._2
+    )
 
 
   /**
@@ -64,12 +64,12 @@ private case class PotentialCache(
     * @return An updated copy of the cache
     */
   def scrollCompatibleBlocks(scrollDelta: Int): PotentialCache =
-  copy(
-    currentBlockIndexOption =
-      currentBlockIndexOption.map(currentBlockIndex =>
-        (
-          currentBlockIndex + math.signum(scrollDelta) + compatibleBlocks.length
-          ) % compatibleBlocks.length
-      )
-  )
+    copy(
+      currentBlockIndexOption =
+        currentBlockIndexOption.map(currentBlockIndex =>
+          (
+            currentBlockIndex + math.signum(scrollDelta) + compatibleBlocks.length
+            ) % compatibleBlocks.length
+        )
+    )
 }

@@ -2,7 +2,7 @@
   ===========================================================================
   TwoBinKernel
   ===========================================================================
-  Copyright (C) 2016 Gianluca Costa
+  Copyright (C) 2016-2017 Gianluca Costa
   ===========================================================================
   This program is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as
@@ -94,7 +94,7 @@ class SolutionCsvReader(
 
       //It was not present in the first version of the document format
       val elapsedTimeOption =
-      None
+        None
 
 
       val blocks =
