@@ -47,4 +47,8 @@ object FileExtensions {
 
   val BppProblem =
     ".bpp"
+
+
+  val BppSolution =
+    ".bpps"
 }
