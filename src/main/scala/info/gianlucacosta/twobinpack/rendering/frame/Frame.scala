@@ -452,7 +452,7 @@ class Frame(val frameTemplate: FrameTemplate) extends Canvas {
 
     blocks().foreach(block => {
       gc.fill =
-        frameTemplate.colorPalette.getColor(block.dimension)
+        frameTemplate.colorPalette.getColor(block.dimension).opacity(0.80)
 
 
       val rectLeft =
