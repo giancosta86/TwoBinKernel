@@ -36,6 +36,9 @@ class BppProblemWriter(targetWriter: Writer) extends DecoratorWriter(targetWrite
   def writeBppProblem(problem: Problem): Unit = {
     require(problem.isBinPacking)
 
+    targetWriter.write(problem.frameTemplate.blockPool.totalBlockCount.toString)
+    targetWriter.write("\r\n")
+
     targetWriter.write(problem.frameTemplate.initialDimension.height.toString)
     targetWriter.write("\r\n")
 
@@ -45,6 +48,7 @@ class BppProblemWriter(targetWriter: Writer) extends DecoratorWriter(targetWrite
         case (blockDimension, quantity) =>
           blockDimension
       }
+      .reverse
       .flatMap {
         case (blockDimension, quantity) =>
           List.fill(quantity)(blockDimension)
@@ -52,11 +56,6 @@ class BppProblemWriter(targetWriter: Writer) extends DecoratorWriter(targetWrite
       .zipWithIndex
       .foreach {
         case (blockDimension, index) =>
-          val blockOrdinal =
-            index + 1
-
-          targetWriter.write(blockOrdinal.toString)
-          targetWriter.write(" ")
           targetWriter.write(blockDimension.height.toString)
           targetWriter.write("\r\n")
       }

@@ -42,6 +42,9 @@ class BppProblemReader(sourceReader: BufferedReader) extends DecoratorReader(sou
                       name: String,
                       id: UUID
                     ): Problem = {
+    val totalBlockCount =
+      sourceReader.readLine().toInt
+
     val frameLine =
       sourceReader.readLine().trim
 
@@ -62,7 +65,7 @@ class BppProblemReader(sourceReader: BufferedReader) extends DecoratorReader(sou
           1
 
         val blockHeight =
-          trimmedLine.split(" ").last.toInt
+          trimmedLine.toInt
 
 
         BlockDimension(
@@ -83,6 +86,11 @@ class BppProblemReader(sourceReader: BufferedReader) extends DecoratorReader(sou
         draftBlocks = blockDimensions
       )
 
+    require(
+      blockPool.totalBlockCount == totalBlockCount,
+      "The declared total block count does not match the actual number of declared blocks"
+    )
+
     val frameTemplate =
       FrameTemplate(
         initialFrameDimension,
@@ -101,7 +109,10 @@ class BppProblemReader(sourceReader: BufferedReader) extends DecoratorReader(sou
         id
       )
 
-    require(problem.isBinPacking)
+    require(
+      problem.isBinPacking,
+      "The problem is not a Bin Packing Problem"
+    )
 
     problem
   }
