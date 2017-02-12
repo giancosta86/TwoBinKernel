@@ -26,105 +26,97 @@ import info.gianlucacosta.twobinpack.core.BlockDimension
 import info.gianlucacosta.twobinpack.rendering.{BlockDataFormat, BlockDragData}
 
 import scalafx.Includes._
-import scalafx.geometry.{Insets, Pos}
-import scalafx.scene.control.Label
-import scalafx.scene.input._
-import scalafx.scene.layout.VBox
+import scalafx.scene.canvas.Canvas
+import scalafx.scene.input.{ClipboardContent, MouseEvent, TransferMode}
 import scalafx.scene.paint.Color
-import scalafx.scene.shape.Rectangle
-import scalafx.scene.text.{Font, FontWeight}
 
-
-private object BlockRenderer {
-  /**
-    * Font used by the description label
-    */
-  private val descriptionFont =
-    Font.font(
-      "Arial",
-      FontWeight.Bold,
-      14
-    )
-}
 
 /**
-  * Renders a block in the gallery
-  *
-  * @param blockGalleryPane The reference BlockGalleryPane
-  * @param blockDimension   The block dimension
-  * @param quantity         The number of instances of the block in the gallery
-  * @param color            The block color
+  * Renders a block in the block gallery
   */
 private class BlockRenderer(
-                             blockGalleryPane: BlockGalleryPane,
                              blockDimension: BlockDimension,
-                             quantity: Int,
+                             resolution: Int,
                              color: Color,
-                             labelText: String
-                           ) extends VBox {
+                             quantity: Int,
+                             interactive: Boolean
+                           ) extends Canvas {
+  width =
+    blockDimension.width * resolution
 
-  alignment =
-    Pos.Center
-
-  spacing =
-    7
-
-  padding =
-    Insets(10)
+  height =
+    blockDimension.height * resolution
 
 
-  private val sampleRectangle =
-    new Rectangle {
-      width =
-        blockDimension.width * blockGalleryPane.resolution
+  {
+    val gc =
+      graphicsContext2D
 
-      height =
-        blockDimension.height * blockGalleryPane.resolution
+    gc.stroke =
+      Color.Black
+
+    gc.lineWidth =
+      2
+
+    gc.fill =
+      color
+
+    gc.fillRect(
+      0,
+      0,
+      width() - 1,
+      height() - 1
+    )
 
 
-      fill =
-        color
+    gc.strokeRect(
+      1,
+      1,
+      width() - 2,
+      height() - 2
+    )
 
-      stroke =
-        Color.Black
+
+    gc.lineWidth =
+      1
 
 
-      handleEvent(MouseEvent.DragDetected) {
-        (event: MouseEvent) => {
-          if (blockGalleryPane.interactive()) {
-            val dragboard =
-              startDragAndDrop(TransferMode.Move)
+    gc.stroke =
+      Color.Black
 
-            dragboard.content =
-              new ClipboardContent {
-                put(
-                  BlockDataFormat,
 
-                  BlockDragData(
-                    blockDimension,
-                    quantity
-                  )
-                )
-              }
+    Range(1, height().toInt - 1, resolution).foreach(lineY => {
+      gc.strokeLine(
+        0,
+        lineY,
+
+        width(),
+        lineY
+      )
+    })
+  }
+
+
+  handleEvent(MouseEvent.DragDetected) {
+    (event: MouseEvent) => {
+      if (interactive) {
+        val dragboard =
+          startDragAndDrop(TransferMode.Move)
+
+        dragboard.content =
+          new ClipboardContent {
+            put(
+              BlockDataFormat,
+
+              BlockDragData(
+                blockDimension,
+                quantity
+              )
+            )
           }
-
-          event.consume()
-        }
       }
+
+      event.consume()
     }
-
-
-  private val descriptionLabel =
-    new Label {
-      text =
-        labelText
-
-      font =
-        BlockRenderer.descriptionFont
-    }
-
-  children = List(
-    sampleRectangle,
-    descriptionLabel
-  )
+  }
 }

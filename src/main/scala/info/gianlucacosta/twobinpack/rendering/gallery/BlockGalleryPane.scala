@@ -127,8 +127,8 @@ class BlockGalleryPane(
               .replaceAll("%W", blockDimension.width.toString)
               .replaceAll("%H", blockDimension.height.toString)
 
-          val blockRenderer =
-            new BlockRenderer(
+          val blockItemRenderer =
+            new BlockItemRenderer(
               this,
               blockDimension,
               quantity,
@@ -136,7 +136,7 @@ class BlockGalleryPane(
               labelText
             )
 
-          children.add(blockRenderer)
+          children.add(blockItemRenderer)
       }
   }
 }
