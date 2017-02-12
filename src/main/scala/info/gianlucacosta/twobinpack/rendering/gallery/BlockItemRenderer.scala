@@ -61,6 +61,9 @@ private class BlockItemRenderer(
                                  labelText: String
                                ) extends VBox {
 
+  styleClass +=
+    "blockItem"
+
   alignment =
     Pos.Center
 
