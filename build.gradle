@@ -51,7 +51,7 @@ apply plugin: 'info.gianlucacosta.aurora'
 
 group 'info.gianlucacosta.twobinpack'
 archivesBaseName = 'twobinkernel'
-version = '2.1-SNAPSHOT'
+version = '2.1'
 
 
 description = 'Scala library for two-dimensional packing'
