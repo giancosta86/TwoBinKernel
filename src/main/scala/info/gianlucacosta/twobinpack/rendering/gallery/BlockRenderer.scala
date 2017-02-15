@@ -31,6 +31,11 @@ import scalafx.scene.input.{ClipboardContent, MouseEvent, TransferMode}
 import scalafx.scene.paint.Color
 
 
+private object BlockRenderer {
+  private val GridColor =
+    Color.Black.opacity(0.65)
+}
+
 /**
   * Renders a block in the block gallery
   */
@@ -82,7 +87,18 @@ private class BlockRenderer(
 
 
     gc.stroke =
-      Color.Black
+      BlockRenderer.GridColor
+
+
+    Range(1, width().toInt - 1, resolution).foreach(lineX => {
+      gc.strokeLine(
+        lineX,
+        0,
+
+        lineX,
+        height()
+      )
+    })
 
 
     Range(1, height().toInt - 1, resolution).foreach(lineY => {
@@ -95,7 +111,6 @@ private class BlockRenderer(
       )
     })
   }
-
 
   handleEvent(MouseEvent.DragDetected) {
     (event: MouseEvent) => {
