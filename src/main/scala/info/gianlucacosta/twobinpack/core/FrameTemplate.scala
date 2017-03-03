@@ -34,19 +34,18 @@ object FrameTemplate {
     Color.LightGreen,
     Color.PaleTurquoise,
     Color.Red,
-    Color.MediumBlue,
-    Color.Khaki,
-    Color.Teal,
-    Color.Orange,
     Color.DodgerBlue,
+    Color.Orange,
     Color.HotPink,
     Color.ForestGreen,
     Color.DarkViolet,
     Color.FireBrick,
+    Color.Teal,
     Color.LightPink,
     Color.OliveDrab,
     Color.Fuchsia,
-    Color.Plum
+    Color.Plum,
+    Color.Khaki
   )
 }
 
