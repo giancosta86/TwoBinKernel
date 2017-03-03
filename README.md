@@ -10,7 +10,7 @@
 
 It is *a Scala library*, inspired by **Functional Programming** (especially *Elm*, *Erlang* and *Haskell*) but still maintaining *a hybrid OOP-FP nature*.
 
-You can employ it to quickly create plugins for [TwoBinManager](https://github.com/giancosta86/TwoBinManager) or even to use TwoBinPack's model in your applications!
+Last but not least, you can even employ it to introduce TwoBinPack's model into your own applications!
 
 
 
@@ -32,14 +32,11 @@ Finally, TwoBinKernel is also a standard [OSGi](http://www.slideshare.net/gianco
 
 **TwoBinKernel**'s root package is **info.gianlucacosta.twobinpack**, having a few notable subpackages:
 
-
 * **core**: essential concepts such as **Problem** and **Solution**
 
 * **io**: shared I/O utilities - for example, to read/write model entities from/to files
 
 * **rendering**: ScalaFX controls for rendering problems and solutions. The most important classes are **Frame**, **AxesPane** and **BlockGalleryPane**
-
-Furthermore, **info.gianlucacosta.twobinmanager.sdk** provides tools for extending TwoBinManager - in particular, the 3 traits **AnalyticsProvider**, **ProblemGenerator** and **Importer**, as well as related utility classes.
 
 
 For further information, please consult the library's Scaladoc.
